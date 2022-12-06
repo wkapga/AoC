@@ -18,3 +18,16 @@ while( ((puff[(marker-find_dif_nr+1):marker] |> unique() |> length() ) < find_di
  print(c(marker,puff[(marker-find_dif_nr+1):marker] ))  
 }
 
+## purrr:::reduce version
+
+my_acc <- function(input, out) { 
+  if ( (puff |> 
+      magrittr::extract((out-find_dif_nr+1):out) |> 
+      unique() |> 
+      length() ) == find_dif_nr) { return(done(out))}
+  paste(out) 
+  }
+
+seq_along(puff) |> 
+  tail(-find_dif_nr ) |> 
+  reduce(my_acc)
